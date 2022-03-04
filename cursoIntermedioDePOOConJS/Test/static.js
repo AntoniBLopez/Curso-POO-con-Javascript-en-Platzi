@@ -11,7 +11,6 @@ console.log( Object.keys(randomNameToObject) ) // = [ 'name', 'email', 'age' ]
 
 
 
-
 // También devuelve lo mismo con .getOwnPropertyNames:
 
 console.log( Object.getOwnPropertyNames(randomNameToObject) ) // = [ 'name', 'email', 'age' ]    " ( Lo mismo ) "
@@ -28,7 +27,7 @@ console.log( Object.entries(randomNameToObject) ) // = [ [ 'name', 'Toni' ], [ '
 
 
 
-// Ahora otro entries:
+// Ahora otro ejemplo con entries:
 
 const randomNameToObject = {
     name: 'Toni',
@@ -93,3 +92,55 @@ console.log( Object.getOwnPropertyDescriptors(randomNameToObject) ) // =
 // Los atributos writable, enumerable y configurable es la forma que tiene JavaScript de limitar el acceso, la modificación o
 // la ejecución de nuestros atributos o de nuestros objetos. Por lo tanto podemos jugar con ellos para 'hakear' el
 // acceso, la modificación o la ejecución.
+
+
+
+
+// Usamos el método static seal: ( Configurable: false  ( Evita que se puedan eliminar todas las propiedades))
+
+const randomNameToObject = {
+    name: 'Toni',
+    email: 'tonib...@...com',
+    age: '24',
+    cursos: [],
+    añadirCurso(nuevoCurso) {
+        this.cursos.push(nuevoCurso)
+    }
+}
+
+console.log( Object.seal(randomNameToObject) ) // = ( Nos devuelve el objeto randomNameToObject tal cuál es, y todas las propiedades
+// del prototype que hayamos llamado se modifica su configurable a false ) :
+// {
+//     name: 'Toni',
+//     email: 'tonib...@...com',
+//     age: '24',
+//     cursos: [],
+//     'añadirCurso': [Function: añadirCurso]
+// }
+
+console.log( Object.getOwnPropertyDescriptors(randomNameToObject)) // Nos ayuda a ver las propertyes writable, enumerable &
+// configurable para que pueda ver los cambios 
+
+console.log( Object.seal(randomNameToObject).añadirCurso('HOLA 23') ) // Una utilidad es que podemos usar el método
+// añadirCurso perfectamente
+console.log(randomNameToObject) // Aquí imprimo el objeto literal que he creado para verificar que
+// efectivamente se ha ejecutado el método y hemos añadido un elemento al array con el método del prototype array push()
+
+
+
+
+// Usamos el método static freeze: ( configurable: false & Writable: false ( Evita que se puedan modificar y eliminar todas las propiedades ))
+
+const randomNameToObject = {
+    name: 'Toni',
+    email: 'tonib...@...com',
+    age: '24',
+    cursos: [],
+    añadirCurso(nuevoCurso) {
+        this.cursos.push(nuevoCurso)
+    }
+}
+
+console.log( Object.freeze(randomNameToObject) )
+console.log( Object.getOwnPropertyDescriptors(randomNameToObject)) // Nos ayuda a ver las propertyes writable, enumerable &
+// configurable para que pueda ver los cambios 
